@@ -42,7 +42,40 @@ namespace BlogWebApp.Controllers
         // GET: Posts/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            try
+            {
+                using (BlogDBEntities db = new BlogDBEntities())
+                {
+                    var oPosts = (from p in db.post
+                                  join c in db.category
+                                  on p.id_category equals c.id
+                                  where p.id == id
+                                  select new Posts()
+                                  {
+                                      Id = p.id,
+                                      Title = p.title,
+                                      Content = p.post_content,
+                                      Image = p.image,
+                                      Category = c.name,
+                                      CreationDate = p.creation_date.ToString()
+                                  });
+
+                    if (oPosts.Count() == 1)
+                    {
+                        return View(oPosts.ToList());
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                ViewBag.Error = e.Message;
+                return RedirectToAction("NotFound", "Error");
+            }
         }
 
         // GET: Posts/Create
