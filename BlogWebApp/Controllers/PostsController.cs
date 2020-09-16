@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BlogWebApp.Models;
 
 namespace BlogWebApp.Controllers
 {
@@ -11,7 +12,31 @@ namespace BlogWebApp.Controllers
         // GET: Posts
         public ActionResult Index()
         {
-            return View();
+            try
+            {
+                using (BlogDBEntities db = new BlogDBEntities())
+                {
+                    var oPosts = (from p in db.post
+                                  join c in db.category
+                                  on p.id_category equals c.id
+                                  orderby p.creation_date descending
+                                  select new Posts()
+                                  {
+                                      Id = p.id,
+                                      Title = p.title,
+                                      Image = p.image,
+                                      Category = c.name,
+                                      CreationDate = p.creation_date.ToString()
+                                  });
+
+                    return View(oPosts.ToList());
+                }
+            }
+            catch (Exception e)
+            {
+                ViewBag.Error = e.Message;
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         // GET: Posts/Details/5
