@@ -26,7 +26,7 @@ namespace BlogWebApp.Controllers
                                       Title = p.title,
                                       Image = p.image,
                                       Category = c.name,
-                                      CreationDate = p.creation_date.ToString()
+                                      CreationDate = p.creation_date
                                   });
 
                     return View(oPosts.ToList());
@@ -57,7 +57,7 @@ namespace BlogWebApp.Controllers
                                       Content = p.post_content,
                                       Image = p.image,
                                       Category = c.name,
-                                      CreationDate = p.creation_date.ToString()
+                                      CreationDate = p.creation_date
                                   });
 
                     if (oPosts.Count() == 1)
