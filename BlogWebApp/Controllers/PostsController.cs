@@ -159,5 +159,28 @@ namespace BlogWebApp.Controllers
                 return View();
             }
         }
+
+        public ActionResult CategoryList()
+        {
+            try
+            {
+                using (BlogDBEntities db = new BlogDBEntities())
+                {
+                    var oCategory = (from c in db.category
+                                     select new Categorys()
+                                     {
+                                         Id = c.id,
+                                         Name = c.name
+                                     });
+
+                    return PartialView(oCategory.ToList());
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+
+        }
     }
 }
