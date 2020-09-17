@@ -192,9 +192,17 @@ namespace BlogWebApp.Controllers
         }
 
         // GET: Posts/Delete/5
+        [HttpGet]
         public ActionResult Delete(int id)
         {
-            return View();
+            using (BlogDBEntities db = new BlogDBEntities())
+            {
+                var oPost = db.post.Find(id);
+
+                db.post.Remove(oPost);
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index");
         }
 
         // POST: Posts/Delete/5
