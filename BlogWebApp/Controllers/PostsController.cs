@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using BlogWebApp.Models;
 
-namespace BlogPruebita.Controllers
+namespace BlogWebApp.Controllers
 {
     public class PostsController : Controller
     {
@@ -130,22 +130,64 @@ namespace BlogPruebita.Controllers
         // GET: Posts/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            CreatePost model = new CreatePost();
+
+            try
+            {
+                using (BlogDBEntities db = new BlogDBEntities())
+                {
+                    var oPost = db.post.Find(id);
+
+                    if (oPost == null)
+                    {
+                        throw new Exception();
+                    }
+
+                    var oCat = db.category.Find(oPost.id_category);
+                    model.Title = oPost.title;
+                    model.Content = oPost.post_content;
+                    model.Image = oPost.image;
+                    model.Category = oCat;
+                    model.CreationDate = oPost.creation_date;
+                }
+
+                return View(model);
+            }
+            catch (Exception e)
+            {
+                ViewBag.Error = e.Message;
+                return RedirectToAction("NotFound", "Error");
+            }
         }
 
         // POST: Posts/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(CreatePost model)
         {
             try
             {
-                // TODO: Add update logic here
+                // TODO: Add insert logic here
+                if (ModelState.IsValid)
+                {
+                    using (BlogDBEntities db = new BlogDBEntities())
+                    {
+                        var oPost = db.post.Find(model.Id);
+                        oPost.title = model.Title;
+                        oPost.post_content = model.Content;
+                        oPost.image = model.Image;
+                        oPost.id_category = model.Category.id;
+
+                        db.Entry(oPost).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                }
 
                 return RedirectToAction("Index");
+
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                throw new Exception(e.Message);
             }
         }
 
