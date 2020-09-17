@@ -195,14 +195,28 @@ namespace BlogWebApp.Controllers
         [HttpGet]
         public ActionResult Delete(int id)
         {
-            using (BlogDBEntities db = new BlogDBEntities())
+            try
             {
-                var oPost = db.post.Find(id);
+                using (BlogDBEntities db = new BlogDBEntities())
+                {
+                    var oPost = db.post.Find(id);
 
-                db.post.Remove(oPost);
-                db.SaveChanges();
+                    if (oPost == null)
+                    {
+                        throw new Exception();
+                    }
+
+                    db.post.Remove(oPost);
+                    db.SaveChanges();
+                }
+
+                return RedirectToAction("Index");
             }
-            return RedirectToAction("Index");
+            catch (Exception e)
+            {
+                ViewBag.Error = e.Message;
+                return RedirectToAction("NotFound", "Error");
+            }
         }
 
         // POST: Posts/Delete/5
