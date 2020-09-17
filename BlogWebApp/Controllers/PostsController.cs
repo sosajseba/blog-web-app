@@ -86,17 +86,33 @@ namespace BlogWebApp.Controllers
 
         // POST: Posts/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(CreatePost model)
         {
             try
             {
                 // TODO: Add insert logic here
+                if (ModelState.IsValid)
+                {
+                    using (BlogDBEntities db = new BlogDBEntities())
+                    {
+                        var oPost = new post();
+                        oPost.title = model.Title;
+                        oPost.post_content = model.Content;
+                        oPost.image = model.Image;
+                        oPost.id_category = model.Category.id;
+                        oPost.creation_date = model.CreationDate;
+
+                        db.post.Add(oPost);
+                        db.SaveChanges();
+                    }
+                }
 
                 return RedirectToAction("Index");
+
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                throw new Exception(e.Message);
             }
         }
 
