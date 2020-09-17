@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BlogWebApp.Models;
 
-namespace BlogWebApp.Controllers
+namespace BlogPruebita.Controllers
 {
     public class PostsController : Controller
     {
@@ -110,9 +112,18 @@ namespace BlogWebApp.Controllers
                 return RedirectToAction("Index");
 
             }
-            catch (Exception e)
+            catch (DbEntityValidationException dbEx)
             {
-                throw new Exception(e.Message);
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        Trace.TraceInformation("Property: {0} Error: {1}",
+                            validationError.PropertyName,
+                            validationError.ErrorMessage);
+                    }
+                }
+                throw new Exception(dbEx.Message);
             }
         }
 

@@ -11,14 +11,11 @@ namespace BlogWebApp.Models
     {
         public int Id { get; set; }
         [Required]
-        [StringLength(50)]
         [Display(Name = "Titulo")]
         public string Title { get; set; }
         [Required]
-        [StringLength(50)]
         [Display(Name = "Content")]
         public string Content { get; set; }
-        [StringLength(300)]
         [Display(Name = "Imagen")]
         public string Image { get; set; }
         [Required]
