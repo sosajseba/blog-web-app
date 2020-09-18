@@ -1,0 +1,58 @@
+﻿@model IEnumerable<BlogWebApp.Models.Posts>
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="container-fluid">
+    <br />
+    <h2>Post:</h2>
+    <hr />
+
+    <dl class="dl-horizontal">
+        <dt>
+            Titulo:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.First().Title)
+        </dd>
+
+        <dt>
+            Contenido:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.First().Content)
+        </dd>
+
+        <dt>
+            Imagen:
+        </dt>
+
+        <image src="@Html.DisplayFor(model => Model.First().Image)" alt="Alternate Text" />
+
+        <dt>
+            Categoria:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.First().Category)
+        </dd>
+
+        <dt>
+            Fecha de creación:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.First().CreationDate)
+        </dd>
+
+    </dl>
+
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.First().Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</div>
+

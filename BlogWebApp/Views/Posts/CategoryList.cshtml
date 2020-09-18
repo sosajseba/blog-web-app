@@ -1,0 +1,10 @@
+﻿@model IEnumerable<BlogWebApp.Models.Categorys>
+
+<select class="form-control" id="Category.id" name="Category.id">
+
+    @foreach (var item in Model)
+    {
+        <option value="@item.Id">@item.Name</option>
+    }
+
+</select>

@@ -1,0 +1,47 @@
+﻿@model IEnumerable<BlogWebApp.Models.Posts>
+
+@{
+    ViewBag.Title = "posts";
+}
+
+<div class="container-fluid">
+
+    <br />
+
+    <table class="table table-responsive">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Título</th>
+                <th scope="col">Imagen</th>
+                <th scope="col">Categoría</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Image)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Category)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreationDate)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                        @Html.ActionLink("Details", "Details", new { id = item.Id })
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
