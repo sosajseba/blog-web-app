@@ -136,8 +136,23 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Blog.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Blog.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Blog.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Blog.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Blog.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Blog.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\category.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>Blog.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Categorys.cs" />
     <Compile Include="Models\CreatePost.cs" />
@@ -157,7 +172,7 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\post.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>Blog.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Posts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -172,6 +187,16 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Models\Blog.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Blog.edmx</DependentUpon>
+      <LastGenOutput>Blog.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Blog.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Blog.edmx</DependentUpon>
+      <LastGenOutput>Blog.cs</LastGenOutput>
+    </Content>
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Model1.Context.cs</LastGenOutput>
@@ -211,6 +236,13 @@
     </EntityDeploy>
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\Blog.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Blog.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Blog.edmx.diagram">
+      <DependentUpon>Blog.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />

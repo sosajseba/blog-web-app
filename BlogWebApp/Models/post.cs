@@ -11,19 +11,16 @@ namespace BlogWebApp.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class post
     {
         public int id { get; set; }
-        [MaxLength(200)]
         public string title { get; set; }
-        [MaxLength(1000)]
         public string post_content { get; set; }
-        [MaxLength(1000)]
         public string image { get; set; }
         public byte id_category { get; set; }
         public System.DateTime creation_date { get; set; }
+        public bool is_active { get; set; }
     
         public virtual category category { get; set; }
     }

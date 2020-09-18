@@ -16,7 +16,7 @@ namespace BlogWebApp.Controllers
         {
             try
             {
-                using (BlogDBEntities db = new BlogDBEntities())
+                using (BlogEntities db = new BlogEntities())
                 {
                     var oPosts = (from p in db.post
                                   join c in db.category
@@ -28,7 +28,8 @@ namespace BlogWebApp.Controllers
                                       Title = p.title,
                                       Image = p.image,
                                       Category = c.name,
-                                      CreationDate = p.creation_date
+                                      CreationDate = p.creation_date,
+                                      IsActive = p.is_active
                                   });
 
                     return View(oPosts.ToList());
@@ -46,7 +47,7 @@ namespace BlogWebApp.Controllers
         {
             try
             {
-                using (BlogDBEntities db = new BlogDBEntities())
+                using (BlogEntities db = new BlogEntities())
                 {
                     var oPosts = (from p in db.post
                                   join c in db.category
@@ -95,7 +96,7 @@ namespace BlogWebApp.Controllers
                 // TODO: Add insert logic here
                 if (ModelState.IsValid)
                 {
-                    using (BlogDBEntities db = new BlogDBEntities())
+                    using (BlogEntities db = new BlogEntities())
                     {
                         var oPost = new post();
                         oPost.title = model.Title;
@@ -134,7 +135,7 @@ namespace BlogWebApp.Controllers
 
             try
             {
-                using (BlogDBEntities db = new BlogDBEntities())
+                using (BlogEntities db = new BlogEntities())
                 {
                     var oPost = db.post.Find(id);
 
@@ -169,7 +170,7 @@ namespace BlogWebApp.Controllers
                 // TODO: Add insert logic here
                 if (ModelState.IsValid)
                 {
-                    using (BlogDBEntities db = new BlogDBEntities())
+                    using (BlogEntities db = new BlogEntities())
                     {
                         var oPost = db.post.Find(model.Id);
                         oPost.title = model.Title;
@@ -192,12 +193,13 @@ namespace BlogWebApp.Controllers
         }
 
         // GET: Posts/Delete/5
-        [HttpGet]
         public ActionResult Delete(int id)
         {
+            Posts model = new Posts();
+
             try
             {
-                using (BlogDBEntities db = new BlogDBEntities())
+                using (BlogEntities db = new BlogEntities())
                 {
                     var oPost = db.post.Find(id);
 
@@ -206,7 +208,9 @@ namespace BlogWebApp.Controllers
                         throw new Exception();
                     }
 
-                    db.post.Remove(oPost);
+                    oPost.is_active = false;
+
+                    db.Entry(oPost).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
                 }
 
@@ -221,17 +225,16 @@ namespace BlogWebApp.Controllers
 
         // POST: Posts/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(Posts model)
         {
             try
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
+                // TODO: Add insert logic here
                 return View();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
             }
         }
 
@@ -239,7 +242,7 @@ namespace BlogWebApp.Controllers
         {
             try
             {
-                using (BlogDBEntities db = new BlogDBEntities())
+                using (BlogEntities db = new BlogEntities())
                 {
                     var oCategory = (from c in db.category
                                      select new Categorys()
