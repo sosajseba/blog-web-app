@@ -4,14 +4,14 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
-
-<div>
-    <h4>Posts</h4>
+<div class="container-fluid">
+    <br />
+    <h2>Post:</h2>
     <hr />
+
     <dl class="dl-horizontal">
         <dt>
-            Titulo
+            Titulo:
         </dt>
 
         <dd>
@@ -19,7 +19,7 @@
         </dd>
 
         <dt>
-            Contenido
+            Contenido:
         </dt>
 
         <dd>
@@ -27,13 +27,13 @@
         </dd>
 
         <dt>
-            Imagen
+            Imagen:
         </dt>
 
         <image src="@Html.DisplayFor(model => Model.First().Image)" alt="Alternate Text" />
-        
+
         <dt>
-            Categoria
+            Categoria:
         </dt>
 
         <dd>
@@ -41,7 +41,7 @@
         </dd>
 
         <dt>
-            Fecha
+            Fecha de creación:
         </dt>
 
         <dd>
@@ -49,8 +49,10 @@
         </dd>
 
     </dl>
+
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.First().Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.First().Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
