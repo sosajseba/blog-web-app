@@ -154,6 +154,7 @@
     <Compile Include="Models\category.cs">
       <DependentUpon>Blog.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CategoryList.cs" />
     <Compile Include="Models\Categorys.cs" />
     <Compile Include="Models\CreatePost.cs" />
     <Compile Include="Models\Model1.Context.cs">
@@ -174,6 +175,7 @@
     <Compile Include="Models\post.cs">
       <DependentUpon>Blog.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PostList.cs" />
     <Compile Include="Models\Posts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
