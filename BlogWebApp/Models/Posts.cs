@@ -13,5 +13,6 @@ namespace BlogWebApp.Models
         public string Image { get; set; }
         public string Category { get; set; }
         public DateTime CreationDate { get; set; }
+        public bool IsActive { get; set; }
     }
 }

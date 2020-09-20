@@ -16,23 +16,8 @@ namespace BlogWebApp.Controllers
         {
             try
             {
-                using (BlogDBEntities db = new BlogDBEntities())
-                {
-                    var oPosts = (from p in db.post
-                                  join c in db.category
-                                  on p.id_category equals c.id
-                                  orderby p.creation_date descending
-                                  select new Posts()
-                                  {
-                                      Id = p.id,
-                                      Title = p.title,
-                                      Image = p.image,
-                                      Category = c.name,
-                                      CreationDate = p.creation_date
-                                  });
-
-                    return View(oPosts.ToList());
-                }
+                PostList oPosts = new PostList();
+                return View(oPosts.GetPosts());
             }
             catch (Exception e)
             {
@@ -46,32 +31,8 @@ namespace BlogWebApp.Controllers
         {
             try
             {
-                using (BlogDBEntities db = new BlogDBEntities())
-                {
-                    var oPosts = (from p in db.post
-                                  join c in db.category
-                                  on p.id_category equals c.id
-                                  where p.id == id
-                                  select new Posts()
-                                  {
-                                      Id = p.id,
-                                      Title = p.title,
-                                      Content = p.post_content,
-                                      Image = p.image,
-                                      Category = c.name,
-                                      CreationDate = p.creation_date
-                                  });
-
-                    if (oPosts.Count() == 1)
-                    {
-                        return View(oPosts.ToList());
-                    }
-                    else
-                    {
-                        throw new Exception();
-                    }
-                }
-
+                PostList oPosts = new PostList();
+                return View(oPosts.GetDetails(id));
             }
             catch (Exception e)
             {
@@ -92,66 +53,26 @@ namespace BlogWebApp.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
                 if (ModelState.IsValid)
                 {
-                    using (BlogDBEntities db = new BlogDBEntities())
-                    {
-                        var oPost = new post();
-                        oPost.title = model.Title;
-                        oPost.post_content = model.Content;
-                        oPost.image = model.Image;
-                        oPost.id_category = model.Category.id;
-                        oPost.creation_date = model.CreationDate;
-
-                        db.post.Add(oPost);
-                        db.SaveChanges();
-                    }
+                    PostList oPosts = new PostList();
+                    oPosts.CreatePost(model);                    
                 }
-
                 return RedirectToAction("Index");
-
             }
-            catch (DbEntityValidationException dbEx)
+            catch (Exception e)
             {
-                foreach (var validationErrors in dbEx.EntityValidationErrors)
-                {
-                    foreach (var validationError in validationErrors.ValidationErrors)
-                    {
-                        Trace.TraceInformation("Property: {0} Error: {1}",
-                            validationError.PropertyName,
-                            validationError.ErrorMessage);
-                    }
-                }
-                throw new Exception(dbEx.Message);
+                throw new Exception(e.Message);
             }
         }
 
         // GET: Posts/Edit/5
         public ActionResult Edit(int id)
         {
-            CreatePost model = new CreatePost();
-
             try
             {
-                using (BlogDBEntities db = new BlogDBEntities())
-                {
-                    var oPost = db.post.Find(id);
-
-                    if (oPost == null)
-                    {
-                        throw new Exception();
-                    }
-
-                    var oCat = db.category.Find(oPost.id_category);
-                    model.Title = oPost.title;
-                    model.Content = oPost.post_content;
-                    model.Image = oPost.image;
-                    model.Category = oCat;
-                    model.CreationDate = oPost.creation_date;
-                }
-
-                return View(model);
+                PostList oPosts = new PostList();
+                return View(oPosts.GetPostForEdit(id));
             }
             catch (Exception e)
             {
@@ -166,24 +87,12 @@ namespace BlogWebApp.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
                 if (ModelState.IsValid)
                 {
-                    using (BlogDBEntities db = new BlogDBEntities())
-                    {
-                        var oPost = db.post.Find(model.Id);
-                        oPost.title = model.Title;
-                        oPost.post_content = model.Content;
-                        oPost.image = model.Image;
-                        oPost.id_category = model.Category.id;
-
-                        db.Entry(oPost).State = System.Data.Entity.EntityState.Modified;
-                        db.SaveChanges();
-                    }
+                    PostList oPosts = new PostList();
+                    oPosts.EditPost(model);
                 }
-
                 return RedirectToAction("Index");
-
             }
             catch (Exception e)
             {
@@ -192,24 +101,12 @@ namespace BlogWebApp.Controllers
         }
 
         // GET: Posts/Delete/5
-        [HttpGet]
         public ActionResult Delete(int id)
         {
             try
             {
-                using (BlogDBEntities db = new BlogDBEntities())
-                {
-                    var oPost = db.post.Find(id);
-
-                    if (oPost == null)
-                    {
-                        throw new Exception();
-                    }
-
-                    db.post.Remove(oPost);
-                    db.SaveChanges();
-                }
-
+                PostList oPosts = new PostList();
+                oPosts.DeletePost(id);
                 return RedirectToAction("Index");
             }
             catch (Exception e)
@@ -218,44 +115,17 @@ namespace BlogWebApp.Controllers
                 return RedirectToAction("NotFound", "Error");
             }
         }
-
-        // POST: Posts/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
         public ActionResult CategoryList()
         {
             try
             {
-                using (BlogDBEntities db = new BlogDBEntities())
-                {
-                    var oCategory = (from c in db.category
-                                     select new Categorys()
-                                     {
-                                         Id = c.id,
-                                         Name = c.name
-                                     });
-
-                    return PartialView(oCategory.ToList());
-                }
+                CategoryList oCat = new CategoryList();
+                return PartialView(oCat.GetPosts());
             }
             catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
-
         }
     }
 }
