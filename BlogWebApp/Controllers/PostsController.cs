@@ -104,6 +104,7 @@ namespace BlogWebApp.Controllers
                         oPost.image = model.Image;
                         oPost.id_category = model.Category.id;
                         oPost.creation_date = model.CreationDate;
+                        oPost.is_active = true;
 
                         db.post.Add(oPost);
                         db.SaveChanges();
